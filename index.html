@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./public/style.css">
+    <title>Document</title>
+</head>
+<body>
+  <div class="tom">
+    <div class="big">
+      <h1>TO DO LIST</h1>
+      <input id="text" type="text">
+      <button id="getBtn">get</button>
+      <button  id="PostBtn">Post</button>
+      <button id="PutBtn">Put</button>
+      <ul id="display"></ul>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+    <script>
+        let get = document.querySelector('#getBtn');
+        let post = document.querySelector('#PostBtn');
+        let display = document.querySelector('#display');
+        let put = document.querySelector('#PutBtn');
+        let inp = document.querySelector('#text');
+      // const  PutBtn = async(e) =>{
+      //   // var a = document.getElementById(event).value;
+      //   fetch("http://localhost:3000/students/"+e.target.dataset.id, 
+      // }
+      let studentId
+        const deleteBtn = async (e)=>{
+          fetch("http://localhost:3000/students/"+e.target.dataset.id, 
+          {
+            method:'DELETE'
+          })
+          }
+
+          const updateBtn = async (e)=>{
+          fetch("http://localhost:3000/students/"+e.target.dataset.id)
+          let data = e.target.dataset.name
+          inp.value = data;
+          studentId=e.target.dataset.id
+          }
+
+        get.addEventListener('click', async () => {
+            let respons = await fetch('http://localhost:3000/students',
+             { method: 'GET' });
+            let data = await respons.json();
+            data.forEach(element => {
+              display.innerHTML += `
+              <li>${element.firstname}
+                <button data-id=${element.id} onclick="deleteBtn(event)">delete item</button>
+                <button data-id=${element.id} data-name=${element.firstname} onclick="updateBtn(event)">update item</button>
+              </li>`
+            });
+        })
+        // console.log("ID", e.target.dataset.id)
+        post.addEventListener('click',async()=>{
+
+            let student={
+              name:inp.value
+            }
+            console.log(student)
+            let respons = await fetch('http://localhost:3000/students',
+            {
+              method:"POST",
+              headers:{'Content-Type':'application/json'},
+              body:JSON.stringify(student),
+            });
+            let data = await respons.json()
+            console.log(data)
+            display.innerHTML += `<li>${data.firstname}</li>`;
+          });
+
+          put.addEventListener('click',async()=>{
+            console.log("A0", window.location.pathname)
+            let student={
+              name:inp.value,
+              id:studentId
+            }
+            console.log(student)
+            let respons = await fetch('http://localhost:3000/students',
+            {
+              method:"PUT",
+              headers:{'Content-Type':'application/json'},
+              body:JSON.stringify(student),
+            });
+            let data = await respons.json()
+            console.log(data)
+            // display.innerHTML += `<li>${data.firstname}</li>`;
+
+          });
+
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+      <!-- <input id="text" type="text">
+      <button id="getBtn">Get</button>
+      <button id="PostBtn">Post</button>
+      <ul id="display"></ul> -->
+      <!-- let get = document.querySelector('#getBtn');
+      let post = document.querySelector('#PostBtn');
+      let display = document.querySelector('#display');
+      let inp = document.querySelector('#text'); -->
+
+      <!-- <script>
+        let get = document.querySelector('#getBtn');
+        let post = document.querySelector('#PostBtn');
+        let display = document.querySelector('#display');
+        let inp = document.querySelector('#text');
+
+
+        const deleteBtn = async (e)=>{
+          fetch("http://localhost:3000/students/" +e.target.dataset.id,
+          {
+            method:'DELETE'
+          })
+          e.target.parentElement.remove()
+        }
+
+
+        const updateBtn= async (e)=>{
+          fetch("http://localhost:3000/students/" +e.target.dataset.id,
+          {
+            method:'UPDATE'
+          })
+          console.log('A3',e.target.dataset.id)
+        }
+
+
+
+        get.addEventListener('click', async ()=>{
+          let respons = await fetch('http://localhost:3000/students',
+           {
+            method:'GET'
+           })
+           data.forEach(Element =>{
+            display.innerHTML += `<li>${element.firstname}<button data-id=${element.id} onclick="deleteBtn(event)">delete item</button></li>`
+           });
+        })
+
+        post.addEventListener('click', async()=>{
+          let student={
+            name:inp.value
+          }
+          console.log(student)
+          let respons = await fetch('http://localhost:3000/students',
+          {
+            method:"POST",
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(student),
+          });
+          let data = await respons.json()
+          console.log(data)
+          display.innerHTML +=`<li>${data.firstname}</li>`;
+        })
+
+
+      </script> -->
+</body>
+</html>
